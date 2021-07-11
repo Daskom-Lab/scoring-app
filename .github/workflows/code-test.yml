@@ -1,11 +1,54 @@
-name: learn-github-actions
+name: Scoring application testing and deployment
 on: [push]
 jobs:
-  check-bats-version:
+  build_and_testing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - run: sudo npm install -g bats
-      - run: bats -v
 
+      - name: Setup GCC Integration
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
+
+      - name: Build using GCC
+        shell: bash
+        runs: |
+          gcc -o calculate calculate.c
+
+      - name: Testing sangat buruk
+        shell: bash
+        runs: |
+          if [[ "$(./calculate 0)" == "Sangat Buruk" ]]
+          then
+              echo "Test Passed"
+              exit 0
+          else 
+              echo "Test Failed"
+              exit 1
+          fi
+
+      - name: Testing sangat baik
+        shell: bash
+        runs: |
+          if [[ "$(./calculate 100)" == "Sangat Baik" ]]
+          then
+              echo "Test Passed"
+              exit 0
+          else 
+              echo "Test Failed"
+              exit 1
+          fi
+
+      - name: Testing lumayan
+        shell: bash
+        runs: |
+          if [[ "$(./calculate 50)" == "Lumayan" ]]
+          then
+              echo "Test Passed"
+              exit 0
+          else 
+              echo "Test Failed"
+              exit 1
+          fi
