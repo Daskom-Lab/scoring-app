@@ -62,7 +62,7 @@ jobs:
       - name: Copy file to server
         shell: bash
         run: |
-          sudo apt-get install scp sshpass
+          sudo apt-get install -y openssh-client sshpass
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -P 777 calculate.c d4sk0m@153.92.4.22:/home/d4sk0m/calculate.c
 
       - name: Connecting and Deploying to VPS 
