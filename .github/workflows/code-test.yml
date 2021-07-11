@@ -3,6 +3,7 @@ on: [push]
 jobs:
   build_and_testing:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup GCC Integration
@@ -13,12 +14,12 @@ jobs:
 
       - name: Build using GCC
         shell: bash
-        runs: |
+        run: |
           gcc -o calculate calculate.c
 
       - name: Testing sangat buruk
         shell: bash
-        runs: |
+        run: |
           if [[ "$(./calculate 0)" == "Sangat Buruk" ]]
           then
               echo "Test Passed"
@@ -30,7 +31,7 @@ jobs:
 
       - name: Testing sangat baik
         shell: bash
-        runs: |
+        run: |
           if [[ "$(./calculate 100)" == "Sangat Baik" ]]
           then
               echo "Test Passed"
@@ -42,7 +43,7 @@ jobs:
 
       - name: Testing lumayan
         shell: bash
-        runs: |
+        run: |
           if [[ "$(./calculate 50)" == "Lumayan" ]]
           then
               echo "Test Passed"
