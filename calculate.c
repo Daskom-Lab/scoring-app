@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
             printf("Sangat Baik");
         } else if (num >= 80) {
             printf("Baik");
-        } else if (num >= 50) {
+        } else if (num > 50) {
             printf("Lumayan");
         } else if (num >= 25) {
             printf("Buruk");
