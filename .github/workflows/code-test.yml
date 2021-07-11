@@ -59,10 +59,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Copy file to server
-        shell: bash
-        run: |
-          sshpass -p ${{ secrets.SERVER_PASSWORD }} scp -P 777 calculate.c d4sk0m@153.92.4.22:/home/d4sk0m/calculate.c
+        uses: matheusvanzan/sshpass-action@v2
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          port: ${{ secrets.PORT }}
+          user: ${{ secrets.SERVER_USERNAME }}
+          pass: ${{ secrets.SERVER_PASSWORD }}
+          run: |
+            scp -P 777 calculate.c d4sk0m@153.92.4.22:/home/d4sk0m/calculate.c
 
       - name: Connecting and Deploying to VPS 
         uses: appleboy/ssh-action@master
