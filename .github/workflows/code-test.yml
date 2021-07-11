@@ -52,3 +52,26 @@ jobs:
               echo "Test Failed"
               exit 1
           fi
+
+  deployment:
+    needs: build_and_testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy file to server
+        shell: bash
+        run: |
+          sudo apt-get install scp sshpass
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -P 777 calculate.c d4sk0m@153.92.4.22:/home/d4sk0m/calculate.c
+
+      - name: Connecting and Deploying to VPS 
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            gcc -o calculate calculate.c
+            ./calculate 100
